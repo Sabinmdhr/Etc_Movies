@@ -1,0 +1,31 @@
+nav {
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  color: brown;
+  padding: 0px 30px;
+  padding-top: 30px;
+  font-size: 20px;
+}
+nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin-right: 10px;
+}
+nav ul li::after {
+  content: "";
+  height: 4px;
+  width: 50%;
+  background-color: rgb(123, 46, 46);
+
+  display: block;
+}
+nav ul li:hover::after {
+  width: 100%;
+  transition: 0.3s all ease-in-out;
+}
+nav ul li:hover {
+  color: rgb(123, 46, 46);
+  transition: 0.3s;
+}
