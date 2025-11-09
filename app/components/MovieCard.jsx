@@ -4,6 +4,8 @@ import Link from "next/link";
 const MovieCard = ({ movie }) => {
   if (!movie) return null; // 🛡️ Prevent crash if movie is undefined
 
+  const title = movie.title || movie.name;
+  const date = movie.release_date || movie.first_air_date;
   return (
     <Link href={`/movies/${movie.id}`}>
       <div className="movie-card">
@@ -18,10 +20,8 @@ const MovieCard = ({ movie }) => {
           />
         </div>
         <div className="movie-info">
-          <div className="movie-title">{movie.title}</div>
-          <span className="release-date">
-            {movie.release_date?.split("-")[0]}
-          </span>
+          <div className="movie-title">{title}</div>
+          <span className="release-date">{date?.split("-")[0]}</span>
         </div>
       </div>
     </Link>

@@ -7,7 +7,10 @@ import {
   searchMovies,
   getNowPlayingMovies,
   getTopRatedMovies,
-} from "../servixes/api";
+  getUpcomingMovies,
+  getPopularTv,
+  getTrending,
+} from "../services/api";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import MovieCard from "../components/MovieCard";
@@ -18,6 +21,9 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [latestMovies, setLatestMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [popularTv, setPopularTv] = useState([]);
+  const [trending, setTrending] = useState([]);
   useEffect(() => {
     const loadPopularMovies = async () => {
       try {
@@ -41,6 +47,17 @@ const Home = () => {
         setLoading(false);
       }
     };
+    const loadUpcomingMovies = async () => {
+      try {
+        const upcomingMovies = await getUpcomingMovies();
+        setUpcomingMovies(upcomingMovies);
+      } catch (error) {
+        console.error("Error fetching popular movies:", error);
+        setError("Failed to load popular movies.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
     const loadLatestMovies = async () => {
       try {
@@ -53,9 +70,39 @@ const Home = () => {
         setLoading(false);
       }
     };
+    // ------------------------------Tv Shows---------------------
+    const loadPopularTv = async () => {
+      try {
+        const popularTv = await getPopularTv();
+        setPopularTv(popularTv);
+      } catch (error) {
+        console.error("Error fetching popular movies:", error);
+        setError("Failed to load popular movies.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    const loadTrending = async () => {
+      try {
+        const trending = await getTrending();
+        setTrending(trending);
+      } catch (error) {
+        console.error("Error fetching popular movies:", error);
+        setError("Failed to load popular movies.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadPopularMovies();
     loadLatestMovies();
     loadTopRatedMovies();
+    loadUpcomingMovies();
+
+    // ----------------------Tv Shows----------------------
+
+    loadPopularTv();
+    loadTrending();
   }, []);
 
   const handleSubmit = (e) => {
@@ -107,8 +154,42 @@ const Home = () => {
             ))}
           </div>
         </div>
+        <div className="Upcoming-movies">
+          <div className="heading">
+            <h1>Upcoming Movies</h1>
+            <button>See More</button>
+          </div>
+          <div className="movie-grid">
+            {upcomingMovies.slice(0, 16).map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        </div>
       </div>
-      <div className="tv-series"></div>
+      <div id="tv-series">
+        <div className="popular-tv-series">
+          <div className="heading">
+            <h1>Popular Tv Shows</h1>
+            <button>See More</button>
+          </div>
+          <div className="movie-grid">
+            {popularTv.slice(0, 16).map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        </div>
+        <div className="Trending">
+          <div className="heading">
+            <h1>Trending</h1>
+            <button>See More</button>
+          </div>
+          <div className="movie-grid">
+            {trending.slice(0, 16).map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

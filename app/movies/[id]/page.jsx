@@ -1,5 +1,5 @@
 import MoviePlayer from "@/app/components/MoviePlayer";
-import { getMovieVideos, getMovieDetails } from "@/app/servixes/api";
+import { getMovieVideos, getMovieDetails } from "@/app/services/api";
 
 const MoviePage = async ({ params }) => {
   const { id } = params; // movie ID from URL
